@@ -11,7 +11,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late List<ChartSampleData> _chartData;
+  late Map<String, dynamic> _chartData;
   late TrackballBehavior _trackballBehavior;
 
   @override
@@ -36,16 +36,16 @@ class _MyHomePageState extends State<MyHomePage> {
             series: <LineSeries>[
               LineSeries<ChartSampleData, String>(
                 sortingOrder: SortingOrder.ascending,
-                dataSource: _chartData,
-                name: 'AAPL',
+                dataSource: _chartData['dataOfFisrtLine'],
+                name: 'Actual',
                 xValueMapper: (ChartSampleData sales, _) => sales.x,
                 yValueMapper: (ChartSampleData sales, _) => sales.y,
                 dataLabelSettings: DataLabelSettings(isVisible: true),
               ),
               LineSeries<ChartSampleData, String>(
                 sortingOrder: SortingOrder.ascending,
-                dataSource: _chartData,
-                name: 'AAPL',
+                dataSource: _chartData['dataOfSecondLine'],
+                name: 'Planning',
                 xValueMapper: (ChartSampleData sales, _) => sales.x,
                 yValueMapper: (ChartSampleData sales, _) => sales.y,
                 dataLabelSettings: DataLabelSettings(isVisible: true),
@@ -97,8 +97,49 @@ class _MyHomePageState extends State<MyHomePage> {
   //   ];
   // }
 
-  List<ChartSampleData> getChartData() {
-    List<Map<String, dynamic>> myData = [
+  // List<ChartSampleData> getChartData() {
+  //   List<Map<String, dynamic>> myData = [
+  //     {
+  //       "date": DateTime(2016, 01, 5),
+  //       "value": 700,
+  //     },
+  //     {
+  //       "date": DateTime(2016, 01, 6),
+  //       "value": 500,
+  //     },
+  //     {
+  //       "date": DateTime(2016, 01, 7),
+  //       "value": 100,
+  //     },
+  //     {
+  //       "date": DateTime(2016, 01, 8),
+  //       "value": 400,
+  //     },
+  //     {
+  //       "date": DateTime(2016, 01, 8),
+  //       "value": 700,
+  //     },
+  //     {
+  //       "date": DateTime(2016, 01, 9),
+  //       "value": 300,
+  //     },
+  //   ];
+
+  //   List<ChartSampleData> data = [];
+
+  //   for (var item in myData) {
+  //     ChartSampleData x = ChartSampleData(
+  //         x: DateFormat('MMM dd, yyyy').format(item['date']).toString(),
+  //         y: item['value']);
+  //     data.add(x);
+  //   }
+
+  //   return data;
+  // }
+
+
+Map<String, dynamic> getChartData() {
+    List<Map<String, dynamic>> fisrtMap = [
       {
         "date": DateTime(2016, 01, 5),
         "value": 700,
@@ -125,17 +166,45 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     ];
 
-    List<ChartSampleData> data = [];
+    List<Map<String, dynamic>> secondMap = [
+      {
+        "date": DateTime(2016, 01, 5),
+        "value": 600,
+      },
+      
+      {
+        "date": DateTime(2016, 01, 9),
+        "value": 450,
+      },
+    ];
 
-    for (var item in myData) {
-      ChartSampleData x = ChartSampleData(
+    List<ChartSampleData> lineOne = [];
+    List<ChartSampleData> lineTwo = [];
+
+
+    for (var item in fisrtMap) {
+      ChartSampleData pointData = ChartSampleData(
           x: DateFormat('MMM dd, yyyy').format(item['date']).toString(),
           y: item['value']);
-      data.add(x);
+      lineOne.add(pointData);
     }
 
-    return data;
+    for (var item in secondMap) {
+      ChartSampleData pointData = ChartSampleData(
+          x: DateFormat('MMM dd, yyyy').format(item['date']).toString(),
+          y: item['value']);
+      lineTwo.add(pointData);
+    }
+
+
+    Map<String, dynamic> allData = {
+      "dataOfFisrtLine" : lineOne,
+      "dataOfSecondLine" : lineTwo,
+    };
+
+    return allData;
   }
+
 }
 
 // class ChartSampleData {
