@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+
 class LineChartSample extends StatelessWidget {
   final List<double> yValues = [
     10,
@@ -29,6 +30,19 @@ class LineChartSample extends StatelessWidget {
     "Day 11",
   ]; // Replace with your dates
 
+final List<FlSpot> data1 = [
+    FlSpot(DateTime.now().millisecondsSinceEpoch.toDouble(), 10.0),
+    FlSpot(
+        (DateTime.now().add(Duration(days: 1))).millisecondsSinceEpoch.toDouble(), 20.0),
+    FlSpot(
+        (DateTime.now().add(Duration(days: 2))).millisecondsSinceEpoch.toDouble(), 15.0),
+    FlSpot((DateTime.now().add(Duration(days: 3))).millisecondsSinceEpoch.toDouble(), 30.0),
+    FlSpot((DateTime.now().add(Duration(days: 4))).millisecondsSinceEpoch.toDouble(), 30.0),
+
+    FlSpot((DateTime.now().add(Duration(days: 5))).millisecondsSinceEpoch.toDouble(), 30.0),
+
+    // Add more data points here with DateTime values
+  ];
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,15 +60,18 @@ class LineChartSample extends StatelessWidget {
           ),
           // minX: 0,
           // maxX: xLabels.length.toDouble() - 1,
+          minX: data1.first.x,
+          maxX: data1.last.y,
           minY: 0,
           maxY: yValues.reduce((a, b) => a > b ? a : b) +
               10, // Adjust the maxY based on your data
 
           lineBarsData: [
             LineChartBarData(
-              spots: List.generate(yValues.length, (index) {
-                return FlSpot(index.toDouble(), yValues[index]);
-              }),
+              spots: data1,
+              // List.generate(yValues.length, (index) {
+              //   return FlSpot(index.toDouble(), yValues[index]);
+              // }),
               isCurved: true,
               color: Colors.blue,
               // dotData: FlDotData(show: false),
